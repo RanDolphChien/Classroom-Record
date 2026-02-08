@@ -27,6 +27,21 @@ def init_app_modules():
 # 建立資料庫連線
 conn = st.connection("postgresql", type="sql")
 
+def init_db():
+    with conn.session as s:
+        s.execute(text("""
+            CREATE TABLE IF NOT EXISTS transcripts (
+                id SERIAL PRIMARY KEY,
+                filename VARCHAR(255) NOT NULL,
+                content TEXT NOT NULL,
+                accuracy FLOAT DEFAULT 0.0,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            );
+        """))
+        s.commit()
+
+init_db()
+
 # 初始化 AI
 has_whisper = init_app_modules()
 
