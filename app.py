@@ -94,10 +94,12 @@ with st.sidebar:
         )
         
         if audio_bytes:
-            st.audio(audio_bytes['bytes'], format="audio/wav")
+            # st.audio(audio_bytes['bytes'], format="audio/wav")
+            st.audio(audio_bytes['bytes'], format="audio/webm")
             if st.button("辨識錄音", key="transcribe_mic"):
                 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-                filename = f"mic_record_{timestamp}.wav"
+                # filename = f"mic_record_{timestamp}.wav"
+                filename = f"mic_record_{timestamp}.webm"
                 file_path = os.path.join(UPLOAD_FOLDER, filename)
                 
                 with open(file_path, "wb") as f:
