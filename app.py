@@ -90,7 +90,8 @@ with st.sidebar:
         audio_bytes = mic_recorder(
             start_prompt="開始錄音",
             stop_prompt="停止錄音",
-            key='recorder'
+            key='recorder',
+            format="wav"
         )
         
         if audio_bytes:
