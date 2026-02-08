@@ -35,7 +35,8 @@ def init_ai_model():
     try:
         print("正在載入 AI 模型...")
         # 雲端記憶體有限，強烈建議使用 base 模型
-        ai_model = whisper.load_model("base") 
+        # ai_model = whisper.load_model("base") 
+        ai_model = whisper.load_model("small") 
         HAS_WHISPER = True
         print("✅ AI 模型載入完成！")
     except Exception as e:
