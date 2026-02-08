@@ -2,16 +2,19 @@ import os
 import shutil
 import whisper
 
-# ... (全域變數保持不變)
+# 全域變數
+HAS_WHISPER = False
+ai_model = None
+HAS_FFMPEG = False
 
 def configure_ffmpeg(base_path):
     """
-    Streamlit Cloud 會透過 packages.txt 安裝 ffmpeg。
-    所以這裡只要檢查系統路徑中是否存在即可。
+    Streamlit Cloud 版本：
+    檢查系統路徑中是否有 ffmpeg (由 packages.txt 安裝)
     """
     global HAS_FFMPEG
     
-    # 檢查系統中是否有 ffmpeg 指令
+    # shutil.which 會在系統 PATH 中尋找執行檔 (跨平台通用)
     if shutil.which("ffmpeg"):
         HAS_FFMPEG = True
         return True
@@ -19,5 +22,24 @@ def configure_ffmpeg(base_path):
     HAS_FFMPEG = False
     return False
 
-# ... (init_ai_model 與 process_speech_to_text 保持不變)
-# 建議：在 Cloud 免費版上，模型建議改用 "base" 或 "small"，"medium" 可能會因為記憶體不足而當機。
+def init_ai_model():
+    """載入 Whisper 模型"""
+    global ai_model, HAS_WHISPER
+    
+    print("--- 系統初始化中 ---")
+    if not HAS_FFMPEG:
+        print("⚠️ 找不到 FFmpeg，無法處理音訊。")
+        HAS_WHISPER = False
+        return
+
+    try:
+        print("正在載入 AI 模型...")
+        # 雲端記憶體有限，強烈建議使用 base 模型，避免記憶體不足崩潰
+        ai_model = whisper.load_model("base") 
+        HAS_WHISPER = True
+        print("✅ AI 模型載入完成！")
+    except Exception as e:
+        HAS_WHISPER = False
+        print(f"⚠️ 模型載入失敗: {e}")
+
+# ... (process_speech_to_text 維持不變)
