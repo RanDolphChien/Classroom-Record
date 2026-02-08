@@ -107,6 +107,7 @@ with st.sidebar:
                     txt, acc = services.process_speech_to_text(file_path)
                     save_transcript_to_db(filename, txt, acc)
                     st.success("✅ 完成！")
+                    st.rerun()
 
     with tab2:
         uploaded_file = st.file_uploader("選擇音檔", type=['mp3', 'wav', 'm4a'])
@@ -119,6 +120,7 @@ with st.sidebar:
                 txt, acc = services.process_speech_to_text(file_path)
                 save_transcript_to_db(uploaded_file.name, txt, acc)
                 st.success("✅ 完成！")
+                st.rerun()
 
 # --- 5. 主畫面：資料列表 ---
 st.header("歷史紀錄")
