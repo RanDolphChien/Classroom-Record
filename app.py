@@ -109,7 +109,8 @@ with st.sidebar:
 st.header("歷史紀錄")
 
 # 搜尋框
-search_term = st.text_input("搜尋內容關鍵字", prefix="🔍")
+# search_term = st.text_input("搜尋內容關鍵字", prefix="🔍")
+search_term = st.text_input("🔍 搜尋內容關鍵字", placeholder="輸入關鍵字...")
 
 # 查詢資料庫
 if search_term:
