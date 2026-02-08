@@ -132,10 +132,12 @@ search_term = st.text_input("🔍 搜尋內容關鍵字", placeholder="輸入關
 # 查詢資料庫
 if search_term:
     sql = "SELECT * FROM transcripts WHERE content ILIKE :q ORDER BY created_at DESC"
-    df = conn.query(sql, params={"q": f"%{search_term}%"})
+    # df = conn.query(sql, params={"q": f"%{search_term}%"})
+    df = conn.query(sql, params={"q": f"%{search_term}%"}, ttl=0)
 else:
     sql = "SELECT * FROM transcripts ORDER BY created_at DESC"
-    df = conn.query(sql)
+    # df = conn.query(sql)
+    df = conn.query(sql, ttl=0)
 
 # 顯示列表
 if not df.empty:
